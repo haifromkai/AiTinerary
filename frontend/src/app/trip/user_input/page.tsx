@@ -1,4 +1,6 @@
-// NAME TRIP PAGE
+// USER INPUT PAGE
+// User will input trip name, city, start date, end date, and what they want to do
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -12,7 +14,7 @@ export default function NameTrip() {
   };
 
   const goToNext = () => {
-    router.push("/trip/select_city");
+    router.push("/trip/itinerary");
   };
 
 

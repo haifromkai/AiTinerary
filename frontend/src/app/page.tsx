@@ -10,7 +10,7 @@ export default function Home() {
 
   // Function to handle navigation to the name_trip page
   const handleStartPlanning = () => {
-    router.push("/trip/name_trip");
+    router.push("/trip/user_input");
   };
 
 
