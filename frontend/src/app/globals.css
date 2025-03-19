@@ -25,6 +25,7 @@ body {
 }
 
 
+
 /* Graph Paper Background */
 .custom-grid-bg {
   background-color: white;
@@ -32,4 +33,41 @@ body {
     linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
+}
+
+
+
+/* Daisy UI Progress Indicator */
+/* Ping Animation */
+.animate-ping-slow {
+  animation: ping 2s cubic-bezier(0, 0, 0.25, 1) infinite;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+/* Color */
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-active {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.status-inactive {
+  background-color: rgba(0, 0, 0, 0.4);
 }
