@@ -28,15 +28,34 @@ export default function NameTrip() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen h-screen bg-white custom-grid-bg p-4">
       
-      {/* Main Container (80% page width, 100% page height) */}
-      <div className="w-4/5 h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
+      {/* Main Container (90% page width, 100% page height) */}
+      <div className="w-9/10 h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
 
 
         {/* Header Panel */}
         <div className="w-full py-2 px-4 flex items-center justify-center border-b border-gray-400">
-          <div className="flex items-center">
-            <img src="/images/logo.png" alt="Logo" className="w-[15px] md:w-[25px] h-auto mr-0.5" />
-            <h1 className="text-3xl md:text-3xl font-mono text-[rgb(49,49,49)]">AiTinerary</h1>
+          <div className="flex items-center justify-between w-full">
+            {/* Empty div for spacing */}
+            <div className="w-[25px]"></div>
+            
+            {/* Centered Logo and Title */}
+            <div className="flex items-center absolute left-1/2 transform -translate-x-1/2">
+              <img src="/images/logo.png" alt="Logo" className="w-[25px] h-[25px] min-w-[25px] object-contain"/>
+              <h1 className="text-3xl md:text-3xl font-mono text-[rgb(49,49,49)]">AiTinerary</h1>
+            </div>
+
+            {/* User Profile Icon */}
+            <button className="flex items-center justify-center h-[25px] w-[25px] rounded-full 
+                              text-[rgb(49,49,49)] 
+                              hover:text-white hover:bg-[#313131]
+                              transition-colors duration-500">
+              <svg className="h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </g>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -71,7 +90,7 @@ export default function NameTrip() {
                 <div className="mt-3">
                   <input 
                     type="text" 
-                    placeholder="Type here" 
+                    placeholder="Type here"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     className={`w-full p-2

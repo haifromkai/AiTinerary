@@ -1,10 +1,15 @@
 // DYNAMIC ITINERARY PAGE
+
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function NameTrip() {
   const router = useRouter();
+
+  // State for input values
+  const [tripName, setTripName] = useState("");
 
   // Navigation functions
   const goToPrevious = () => {
@@ -19,76 +24,181 @@ export default function NameTrip() {
 
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-white p-2 custom-grid-bg">
-
-      <h1 className="text-4xl md:text-6xl font-mono text-[rgb(49,49,49)] mt-2 md:mt-2 text-center">*Trip Name Query Here*</h1>
-
-
-      {/* Page Content */}
-      <div className="w-full max-w-md my-8">
-        {/* Dynamic Itinerary Layout */}
-        <input 
-          type="text" 
-          placeholder="Dynamic itinerary layout will go here" 
-          className="w-full p-3
-                     border border-dashed border-[#3c3c3c] bg-gray-100
-                     font-mono text-[#313131]
-                     focus:outline-none"
-        />
-      </div>
+    <div className="relative flex flex-col items-center justify-center min-h-screen h-screen bg-white custom-grid-bg p-4">
+      
+      {/* Main Container (90% page width, 100% page height) */}
+      <div className="w-9/10 h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
 
 
-      {/* Navigation buttons */}
-      <div className="flex justify-between w-full max-w-md mt-8">
-        <button 
-          onClick={goToPrevious}
-          className="btn border-[#3c3c3c] border-1 border-dashed
-                    text-base font-mono text-[#3c3c3c]
-                    bg-white
-                    hover:text-white hover:bg-[#313131] hover:border-[#313131]
-                    transition duration-500
-                    shadow-none
-                    px-6 py-2">
-          Prev
-        </button>
-        
-        <button 
-          // onClick={goToNext}
-          className="btn border-[#3c3c3c] border-1 border-dashed
-                    text-base font-mono text-[#3c3c3c]
-                    bg-white
-                    hover:text-white hover:bg-[#313131] hover:border-[#313131]
-                    transition duration-500
-                    shadow-none
-                    px-6 py-2">
-          Reset
-        </button>
+        {/* Header Panel */}
+        <div className="w-full py-2 px-4 flex items-center justify-center border-b border-gray-400">
+          <div className="flex items-center justify-between w-full">
+            {/* Empty div for spacing */}
+            <div className="w-[25px]"></div>
+            
+            {/* Centered Logo and Title */}
+            <div className="flex items-center absolute left-1/2 transform -translate-x-1/2">
+              <img src="/images/logo.png" alt="Logo" className="w-[25px] h-[25px] min-w-[25px] object-contain"/>
+              <h1 className="text-3xl md:text-3xl font-mono text-[rgb(49,49,49)]">AiTinerary</h1>
+            </div>
 
-        <button 
-          // onClick={goToNext}
-          className="btn border-[#3c3c3c] border-1 border-dashed
-                    text-base font-mono text-[#3c3c3c]
-                    bg-white
-                    hover:text-white hover:bg-[#313131] hover:border-[#313131]
-                    transition duration-500
-                    shadow-none
-                    px-6 py-2">
-          View
-        </button>
-
-        <button 
-          // onClick={goToNext}
-          className="btn border-[#3c3c3c] border-1 border-dashed
-                    text-base font-mono text-[#3c3c3c]
-                    bg-white
-                    hover:text-white hover:bg-[#313131] hover:border-[#313131]
-                    transition duration-500
-                    shadow-none
-                    px-6 py-2">
-          Share
-        </button>
+            {/* User Profile Icon */}
+            <button className="flex items-center justify-center h-[25px] w-[25px] rounded-full 
+                              text-[rgb(49,49,49)] 
+                              hover:text-white hover:bg-[#313131]
+                              transition-colors duration-500">
+              <svg className="h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
 
 
+        {/* Content Area */}
+        <div className="flex flex-1">
+
+          {/* Container 1 - Left Side (30% page width) */}
+          <div className="w-[30%] p-6 border-r border-gray-400 flex flex-col">
+            <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-left">Side Panel</h1>
+            <div className="mt-3">
+              <input 
+                type="text" 
+                placeholder="Place Card #1" 
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+                className={`w-full p-2
+                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
+                           font-mono text-[#313131]
+                           hover:bg-gray-200
+                           focus:bg-gray-200
+                           focus:outline-none focus:border-[#313131] focus:border-dashed
+                           transition-colors duration-300`}
+              />
+            </div>
+
+            <div className="mt-3">
+              <input 
+                type="text" 
+                placeholder="Place Card #2" 
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+                className={`w-full p-2
+                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
+                           font-mono text-[#313131]
+                           hover:bg-gray-200
+                           focus:bg-gray-200
+                           focus:outline-none focus:border-[#313131] focus:border-dashed
+                           transition-colors duration-300`}
+              />
+            </div>
+
+            <div className="mt-3">
+              <input 
+                type="text" 
+                placeholder="Place Card #3" 
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+                className={`w-full p-2
+                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
+                           font-mono text-[#313131]
+                           hover:bg-gray-200
+                           focus:bg-gray-200
+                           focus:outline-none focus:border-[#313131] focus:border-dashed
+                           transition-colors duration-300`}
+              />
+            </div>
+          </div>
+
+          {/* Container 2 - Right Side (70% page width) */}
+          <div className="w-[70%] p-6 flex flex-col">
+            <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-left">Dynamic Itinerary</h1>
+            <div className="mt-3 flex-1">
+              {/* content goes here */}
+              <div className="h-[100%] border border-dashed border-[#3c3c3c] 
+                            hover:bg-gray-200
+                            focus:bg-gray-200
+                              transition-colors duration-300
+                              flex items-center justify-center">
+                <p className="font-mono text-[#313131]">Day boxes will go here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {/* Footer Panel - Fixed structure */}
+        <div className="w-full py-2 px-4 border-t border-gray-400">
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center w-full">
+            <div className="flex space-x-2">
+              <button 
+                onClick={goToPrevious}
+                className="btn border-[#3c3c3c] border-1 border-dashed
+                           text-base font-mono text-[#3c3c3c]
+                         bg-white
+                         hover:text-white hover:bg-[#313131] hover:border-[#313131]
+                           transition duration-500
+                           shadow-none
+                           px-6 py-2 rounded-none">
+                Prev
+              </button>
+
+              <button 
+                // onClick={goToPrevious}
+                className="btn border-[#3c3c3c] border-1 border-dashed
+                           text-base font-mono text-[#3c3c3c]
+                         bg-white
+                         hover:text-white hover:bg-[#313131] hover:border-[#313131]
+                           transition duration-500
+                           shadow-none
+                           px-6 py-2 rounded-none">
+                Reset
+              </button>
+            </div>
+
+            {/* Progress Indicators */}
+            <div className="flex space-x-8">
+              <div aria-label="status" className="status status-inactive"></div>
+              
+              <div aria-label="status" className="status status-inactive"></div>
+
+              <div className="inline-grid *:[grid-area:1/1]">
+                <div className="status status-active animate-ping-slow"></div>
+                <div className="status status-active"></div>
+              </div>
+            </div>
+
+            <div className="flex space-x-2">
+              <button 
+                // onClick={goToNext}
+                className="btn border-[#3c3c3c] border-1 border-dashed
+                          text-base font-mono text-[#3c3c3c]
+                          bg-white
+                          hover:text-white hover:bg-[#313131] hover:border-[#313c3c]
+                          transition duration-500
+                          shadow-none
+                          px-6 py-2 rounded-none">
+                View
+              </button>
+
+              <button 
+                // onClick={goToNext}
+                className="btn border-[#3c3c3c] border-1 border-dashed
+                          text-base font-mono text-[#3c3c3c]
+                          bg-white
+                          hover:text-white hover:bg-[#313131] hover:border-[#313c3c]
+                          transition duration-500
+                          shadow-none
+                          px-6 py-2 rounded-none">
+                Share
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
