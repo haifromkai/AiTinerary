@@ -156,7 +156,7 @@ const PlacesAutocomplete = ({
   };
 
 
-export default function NameTrip() {
+export default function UserInputPage() {
   const router = useRouter();
 
   // Get values and setters from Zustand store
@@ -193,10 +193,10 @@ export default function NameTrip() {
             {/* Empty div for spacing */}
             <div className="w-[25px]">
 
-              {/* DEBUG BUTTON - CHECK TRIP ID OF ZUSTAND STORE */}
+              {/* DEBUG BUTTON - Show current TripState's Trip Id */}
               {process.env.NODE_ENV === 'development' && (
                 <button 
-                  onClick={() => alert(`Current Trip ID: ${tripId}`)}
+                  onClick={() => alert(`Current TripState object's tripId: ${tripId}`)}
                   className="text-xs text-gray-400 hover:text-gray-600">
                   ID
                 </button>
@@ -210,10 +210,11 @@ export default function NameTrip() {
             </div>
 
             {/* User Profile Icon */}
-            <button className="flex items-center justify-center h-[25px] w-[25px] rounded-full 
-                              text-[rgb(49,49,49)] 
-                              hover:text-white hover:bg-[#313131]
-                              transition-colors duration-500">
+            <button className="flex items-center justify-center h-[25px] w-[25px] 
+                               border border-dashed border-[#3c3c3c]
+                             text-[rgb(49,49,49)] 
+                             hover:text-white hover:bg-[#313131] hover:border-[#313131]
+                               transition-colors duration-500">
               <svg className="h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>

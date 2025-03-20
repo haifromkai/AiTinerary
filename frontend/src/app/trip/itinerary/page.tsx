@@ -5,7 +5,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function NameTrip() {
+export default function ItineraryPage() {
   const router = useRouter();
 
   // State for input values
@@ -43,10 +43,11 @@ export default function NameTrip() {
             </div>
 
             {/* User Profile Icon */}
-            <button className="flex items-center justify-center h-[25px] w-[25px] rounded-full 
-                              text-[rgb(49,49,49)] 
-                              hover:text-white hover:bg-[#313131]
-                              transition-colors duration-500">
+            <button className="flex items-center justify-center h-[25px] w-[25px] 
+                               border border-dashed border-[#3c3c3c]
+                             text-[rgb(49,49,49)] 
+                             hover:text-white hover:bg-[#313131] hover:border-[#313131]
+                               transition-colors duration-500">
               <svg className="h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
