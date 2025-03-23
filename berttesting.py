@@ -45,7 +45,7 @@ class KeywordExtractor:
         
         return list(set(activities))
     
-    def extract_keywords(self, text, max_keywords=15):
+    def extract_keywords(self, text, max_keywords=10):
         """
         Extract activity-related keywords from text
         """
@@ -53,25 +53,20 @@ class KeywordExtractor:
         activities = self.extract_activity_keywords(processed_text)
         return activities[:max_keywords]
     
-    def get_api_keywords(self, text, max_keywords=10):
-        """
-        Get activity-related keywords for API calls
-        """
-        keywords = self.extract_keywords(text, max_keywords)
-        return keywords
 
 # Usage example
 def demonstrate_keyword_extraction():
-    user_prompt = "Suggest the best museums for art, history, or science exploration. Recommend top camping spots with stunning natural views. \
-        Identify thrilling biking trails for all skill levels. Highlight prime wildlife viewing areas and best times for sightings. \
-        List breathtaking photography locations with unique landscapes. Provide must-try dining experiences featuring local cuisine. "
+    # user_prompt = "Suggest the best museums for art, history, or science exploration. Recommend top camping spots with stunning natural views. \
+    #     Identify thrilling biking trails for all skill levels. Highlight prime wildlife viewing areas and best times for sightings. \
+    #     List breathtaking photography locations with unique landscapes. Provide must-try dining experiences featuring local cuisine. "
+    
+    user_prompt = "Plan a trip focused on cafes, bars, nightlife, concerts, and shopping! Recommend must-visit coffee spots, trendy bars,\
+          and exciting nightlife venues. Include live music or concert options and the best shopping districts or unique boutiques. Tailor suggestions to the city's vibe, \
+        balancing hidden gems with popular hotspots. Prioritize walkability and seamless transitions between activities. Optimize for a fun, immersive experience!"
     
     extractor = KeywordExtractor()
     keywords = extractor.extract_keywords(user_prompt)
     print("Extracted Activity Keywords:", keywords)
-    
-    api_keywords = extractor.get_api_keywords(user_prompt)
-    print("\nKeywords for API Call:", api_keywords)
 
 if __name__ == "__main__":
     demonstrate_keyword_extraction()
