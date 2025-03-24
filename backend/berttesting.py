@@ -8,8 +8,8 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 
 # Download necessary NLTK data
-# nltk.download('stopwords')
-# nltk.download('wordnet')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 class KeywordExtractor:
     def __init__(self, bert_model_name='bert-base-uncased'):
@@ -56,13 +56,13 @@ class KeywordExtractor:
 
 # Usage example
 def demonstrate_keyword_extraction():
-    # user_prompt = "Suggest the best museums for art, history, or science exploration. Recommend top camping spots with stunning natural views. \
-    #     Identify thrilling biking trails for all skill levels. Highlight prime wildlife viewing areas and best times for sightings. \
-    #     List breathtaking photography locations with unique landscapes. Provide must-try dining experiences featuring local cuisine. "
+    user_prompt = "Suggest the best museums for art, history, or science exploration. Recommend top camping spots with stunning natural views. \
+        Identify thrilling biking trails for all skill levels. Highlight prime wildlife viewing areas and best times for sightings. \
+        List breathtaking photography locations with unique landscapes. Provide must-try dining experiences featuring local cuisine. "
     
-    user_prompt = "Plan a trip focused on cafes, bars, nightlife, concerts, and shopping! Recommend must-visit coffee spots, trendy bars,\
-          and exciting nightlife venues. Include live music or concert options and the best shopping districts or unique boutiques. Tailor suggestions to the city's vibe, \
-        balancing hidden gems with popular hotspots. Prioritize walkability and seamless transitions between activities. Optimize for a fun, immersive experience!"
+    # user_prompt = "Plan a trip focused on cafes, bars, nightlife, concerts, and shopping! Recommend must-visit coffee spots, trendy bars,\
+    #       and exciting nightlife venues. Include live music or concert options and the best shopping districts or unique boutiques. Tailor suggestions to the city's vibe, \
+    #     balancing hidden gems with popular hotspots. Prioritize walkability and seamless transitions between activities. Optimize for a fun, immersive experience!"
     
     extractor = KeywordExtractor()
     keywords = extractor.extract_keywords(user_prompt)
