@@ -1,7 +1,7 @@
 # Sample Activity Prompts
-# ap = "I would like to go camping, fishing, and hiking."
-ap = "For my trip to Japan, my interests include food experiences, cultural sites, nature, and some quirky/unique attractions. I prefer a mix of popular spots and hidden gems, with 3 to 4 activities per day plus meal recommendations. I'm traveling with my partner who enjoys photography."
-# ap = "I would like to go camping, hiking, fishing, and eating"
+# ap = "I would like to go to bars with my friends. We want to go to a concert before getting drinks."
+# ap = "For my trip to Japan, my interests include food experiences, cultural sites, nature, and some quirky/unique attractions. I prefer a mix of popular spots and hidden gems, with 3 to 4 activities per day plus meal recommendations. I'm traveling with my partner who enjoys photography."
+ap = "I want to eat at a Japanese restaurant"
 
 # Import KeyBERT model and other necessary libraries
 from keybert import KeyBERT
@@ -25,13 +25,14 @@ extracted_keywords = kw_model.extract_keywords(
 preset_candidates = ["restaurants dining", "cafes bakeries", "bars nightlife", "museums galleries", "historical sites", "parks nature","shopping retail","entertainment venues","sports recreation","spa wellness","tours sightseeing","beaches water activities","family kid friendly","hiking trails","viewpoints photography"]
 preset_candidates2 = {
             "restaurants_dining": ["restaurant", "dining", "food", "cuisine", "meal", "dinner", "lunch", "breakfast", "eat", "culinary", "chef", "taste", "gourmet", "local food"],
+            "boba": ["boba", "bubble tea", "tea", "bubble tea shop", "boba tea shop", "bubble tea bar", "milk tea"],
             "cafes_bakeries": ["cafe", "coffee", "bakery", "pastry", "dessert", "brunch", "tea", "espresso", "croissant", "patisserie"],
-            "bars_nightlife": ["bar", "nightlife", "club", "pub", "cocktail", "drink", "beer", "wine", "dance", "night", "party", "lounge"],
+            "bars_nightlife": ["bar", "nightlife", "club", "pub", "cocktail", "drink", "beer", "wine", "dance", "night", "party", "lounge", "alcohol", "liquor"],
             "museums_galleries": ["museum", "gallery", "exhibition", "art", "collection", "artifact", "exhibit", "display", "contemporary"],
             "historical_sites": ["history", "historical", "ancient", "heritage", "ruins", "monument", "landmark", "castle", "palace", "temple", "cathedral", "church", "archaeological"],
             "parks_nature": ["park", "nature", "garden", "outdoor", "forest", "mountain", "landscape", "flora", "wildlife", "botanical", "reserve", "natural"],
             "shopping_retail": ["shopping", "shop", "market", "mall", "boutique", "store", "retail", "buy", "souvenir", "fashion", "outlet"],
-            "entertainment_venues": ["entertainment", "theater", "cinema", "concert", "festival", "show", "performance", "music", "event", "venue"],
+            "entertainment_venues": ["entertainment", "theater", "cinema", "concert", "festival", "show", "performance", "music", "event", "venue", "rave"],
             "sports_recreation": ["sport", "recreation", "activity", "adventure", "fitness", "game", "play", "bike", "cycle", "swim", "climb"],
             "spa_wellness": ["spa", "wellness", "massage", "relax", "relaxation", "therapy", "treatment", "health", "meditation", "yoga", "rejuvenate"],
             "tours_sightseeing": ["tour", "sightseeing", "guide", "guided", "excursion", "trip", "visit", "attraction", "explore", "discovery"],
@@ -75,7 +76,7 @@ for category, terms in preset_candidates2.items():
         best_match_score = extracted_keywords_dict[best_match_keyword]
         
         # Store the result if similarity is above threshold
-        if max_sim > 0.5:  # Adjust this threshold as needed
+        if max_sim > 0.65:  # Adjust this threshold as needed
             category_matches.append({
                 'category': category,
                 'term': terms[term_idx],
