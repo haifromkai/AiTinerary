@@ -13,6 +13,8 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
+import { DayPicker, DateRange } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 // Create Zustand store with persistence
 interface TripState {
@@ -20,11 +22,15 @@ interface TripState {
   tripName: string;
   activityPrompt: string;
   city: string;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 
   setTripId: (id: string) => void;
   setTripName: (name: string) => void;
   setActivityPrompt: (prompt: string) => void;
   setCity: (city: string) => void;
+  setStartDate: (date: Date | undefined) => void;
+  setEndDate: (date: Date | undefined) => void;
 }
 
 const useTripStore = create<TripState>()(
@@ -34,11 +40,15 @@ const useTripStore = create<TripState>()(
       tripName: "",
       activityPrompt: "",
       city: "",
+      startDate: undefined,
+      endDate: undefined,
 
       setTripId: (id) => set({ tripId: id }),
       setTripName: (name) => set({ tripName: name }),
       setActivityPrompt: (prompt) => set({ activityPrompt: prompt }),
       setCity: (city) => set({ city: city }),
+      setStartDate: (date) => set({ startDate: date }),
+      setEndDate: (date) => set({ endDate: date }),
     }),
     {
       name: "trip-storage", // unique name for localStorage
@@ -160,10 +170,89 @@ export default function UserInputPage() {
   const router = useRouter();
 
   // Get values and setters from Zustand store
-  const { tripId, tripName, setTripName, activityPrompt, setActivityPrompt, city, setCity } = useTripStore();
+  const { tripId, tripName, setTripName, activityPrompt, setActivityPrompt, city, setCity, startDate, setStartDate, endDate, setEndDate } = useTripStore();
 
   // Local state to handle hydration issues
   const [isHydrated, setIsHydrated] = useState(false);
+
+  // State for calendar popover
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
+    startDate && endDate ? { from: startDate, to: endDate } : undefined
+  );
+
+  // Disable dates that would create a range longer than 7 days
+  const disabledDays = (day: Date) => {
+    if (!selectedRange?.from) return false;
+    
+    // Ensure selectedRange.from is a valid Date object
+    const fromDate = selectedRange.from instanceof Date ? selectedRange.from : new Date(selectedRange.from);
+    
+    // Check if fromDate is valid before proceeding
+    if (isNaN(fromDate.getTime())) return false;
+    
+    const diffTime = Math.abs(day.getTime() - fromDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays > 7;
+  };
+
+  // Format date range for display
+  const formatDateRange = () => {
+    if (!selectedRange?.from) return "Select dates (7 days max)";
+    
+    // Ensure dates are valid before formatting
+    const fromDate = selectedRange.from instanceof Date ? selectedRange.from : new Date(selectedRange.from);
+    
+    if (isNaN(fromDate.getTime())) return "Select dates (7 days max)";
+    
+    const formattedFromDate = fromDate.toLocaleDateString();
+    
+    if (!selectedRange?.to) return formattedFromDate;
+    
+    const toDate = selectedRange.to instanceof Date ? selectedRange.to : new Date(selectedRange.to);
+    
+    if (isNaN(toDate.getTime())) return formattedFromDate;
+    
+    const formattedToDate = toDate.toLocaleDateString();
+    return `${formattedFromDate} - ${formattedToDate}`;
+  };
+
+  // Handle range selection with 7-day limit
+  const handleRangeSelect = (range: DateRange | undefined) => {
+    if (range?.from && range?.to) {
+      // Ensure both dates are valid Date objects
+      const fromDate = range.from instanceof Date ? range.from : new Date(range.from);
+      const toDate = range.to instanceof Date ? range.to : new Date(range.to);
+      
+      // Check if dates are valid
+      if (!isNaN(fromDate.getTime()) && !isNaN(toDate.getTime())) {
+        // Calculate the difference in days
+        const diffTime = Math.abs(toDate.getTime() - fromDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        // If more than 7 days, adjust the end date
+        if (diffDays > 7) {
+          const newEndDate = new Date(fromDate);
+          newEndDate.setDate(fromDate.getDate() + 6); // 7 days total (including start date)
+          range.to = newEndDate;
+        }
+      }
+    }
+    
+    setSelectedRange(range);
+    setStartDate(range?.from);
+    setEndDate(range?.to);
+  };
+
+  // Handle hydration (ensures we don't get hydration errors with SSR)
+  useEffect(() => {
+    setIsHydrated(true);
+    if (startDate && endDate) {
+      setSelectedRange({ from: startDate, to: endDate });
+    }
+  }, [startDate, endDate]);
 
   // Handle hydration (ensures we don't get hydration errors with SSR)
   useEffect(() => {
@@ -183,8 +272,8 @@ export default function UserInputPage() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen h-screen bg-white custom-grid-bg p-4">
 
-      {/* Main Container (90% page width, 100% page height) */}
-      <div className="w-[90%] h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
+      {/* Main Container (75% page width, 100% page height) */}
+      <div className="w-[75%] h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
 
 
         {/* Header Panel */}
@@ -265,14 +354,40 @@ export default function UserInputPage() {
           </div>
 
           {/* Container 3 - Calendar (Right Side) */}
-          <div className="w-1/2 p-4 border-b border-gray-400 flex flex-col justify-center">
-            <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-left">Select dates</h1>
-            <div className="mt-3 h-[68.5%] border border-dashed border-[#3c3c3c] 
-                          hover:bg-gray-200
-                          focus:bg-gray-200
-                            transition-colors duration-300
-                            flex items-center justify-center">
-              {/* content goes here */}
+          <div className="w-1/2 p-4 border-b border-gray-400 flex flex-col">
+            <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-center">
+              {formatDateRange()}
+            </h1>
+            <div className="mt-3 flex-grow flex justify-center items-center overflow-auto">
+              {isHydrated && (
+                <>
+                  <style jsx global>{`
+                    .rdp-weeks > .rdp-week:last-child {
+                      border-bottom: none !important;
+                    }
+                  `}</style>
+                <DayPicker
+                  mode="range"
+                  selected={selectedRange}
+                  onSelect={handleRangeSelect}
+                  numberOfMonths={1}
+                  styles={{
+                    month_caption: { color: '#313131' },
+                    day: { margin: '0.2em', color: '#313131' },
+                    weekday: { color: '#313131' },
+                    button_next: { color: '#313131' },
+                    button_previous: { color: '#313131' },
+                    caption_label: { color: '#313131' },
+                    month_grid: { color: '#313131' },
+                    week: { borderBottom: '1px solid #e5e5e5' },
+                    month: { border: '1px solid #e5e5e5' }
+                  }}
+                  disabled={disabledDays}
+                  // footer={<p className="text-xs text-gray-500">Maximum trip duration: 7 days</p>}
+                  className="border border-dashed border-[#3c3c3c] p-2 bg-white"
+                />
+                </>
+              )}
             </div>
           </div>
         </div>
