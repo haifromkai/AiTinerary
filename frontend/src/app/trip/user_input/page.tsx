@@ -15,6 +15,7 @@ import usePlacesAutocomplete, {
 import useOnclickOutside from "react-cool-onclickoutside";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { small } from "framer-motion/client";
 
 // Create Zustand store with persistence
 interface TripState {
@@ -175,9 +176,6 @@ export default function UserInputPage() {
   // Local state to handle hydration issues
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // State for calendar popover
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(
     startDate && endDate ? { from: startDate, to: endDate } : undefined
   );
@@ -195,29 +193,29 @@ export default function UserInputPage() {
     const diffTime = Math.abs(day.getTime() - fromDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
-    return diffDays > 7;
+    return diffDays > 6;
   };
 
   // Format date range for display
-  const formatDateRange = () => {
-    if (!selectedRange?.from) return "Select dates (7 days max)";
+  // const formatDateRange = () => {
+  //   if (!selectedRange?.from) return "Select dates (7 days max)";
     
-    // Ensure dates are valid before formatting
-    const fromDate = selectedRange.from instanceof Date ? selectedRange.from : new Date(selectedRange.from);
+  //   // Ensure dates are valid before formatting
+  //   const fromDate = selectedRange.from instanceof Date ? selectedRange.from : new Date(selectedRange.from);
     
-    if (isNaN(fromDate.getTime())) return "Select dates (7 days max)";
+  //   if (isNaN(fromDate.getTime())) return "Select dates (7 days max)";
     
-    const formattedFromDate = fromDate.toLocaleDateString();
+  //   const formattedFromDate = fromDate.toLocaleDateString();
     
-    if (!selectedRange?.to) return formattedFromDate;
+  //   if (!selectedRange?.to) return formattedFromDate;
     
-    const toDate = selectedRange.to instanceof Date ? selectedRange.to : new Date(selectedRange.to);
+  //   const toDate = selectedRange.to instanceof Date ? selectedRange.to : new Date(selectedRange.to);
     
-    if (isNaN(toDate.getTime())) return formattedFromDate;
+  //   if (isNaN(toDate.getTime())) return formattedFromDate;
     
-    const formattedToDate = toDate.toLocaleDateString();
-    return `${formattedFromDate} - ${formattedToDate}`;
-  };
+  //   const formattedToDate = toDate.toLocaleDateString();
+  //   return `${formattedFromDate} - ${formattedToDate}`;
+  // };
 
   // Handle range selection with 7-day limit
   const handleRangeSelect = (range: DateRange | undefined) => {
@@ -356,7 +354,7 @@ export default function UserInputPage() {
           {/* Container 3 - Calendar (Right Side) */}
           <div className="w-1/2 p-4 border-b border-gray-400 flex flex-col">
             <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-center">
-              {formatDateRange()}
+              Select dates
             </h1>
             <div className="mt-3 flex-grow flex justify-center items-center overflow-auto">
               {isHydrated && (
@@ -371,19 +369,21 @@ export default function UserInputPage() {
                   selected={selectedRange}
                   onSelect={handleRangeSelect}
                   numberOfMonths={1}
+                  classNames={{
+                    chevron: 'color: #313131 w-4 h-4'
+                  }}
                   styles={{
-                    month_caption: { color: '#313131' },
-                    day: { margin: '0.2em', color: '#313131' },
-                    weekday: { color: '#313131' },
+                    month_caption: { color: '#313131', fontSize: '0.9rem', paddingLeft: '1rem' },
+                    day: { margin: '0.2rem', color: '#313131', fontFamily: 'monospace' },
+                    weekday: { color: '#313131', fontFamily: 'monospace' },
                     button_next: { color: '#313131' },
                     button_previous: { color: '#313131' },
-                    caption_label: { color: '#313131' },
+                    caption_label: { color: '#313131', fontFamily: 'monospace' },
                     month_grid: { color: '#313131' },
-                    week: { borderBottom: '1px solid #e5e5e5' },
-                    month: { border: '1px solid #e5e5e5' }
+                    week: { borderBottom: '1px solid #e5e5e5' }
                   }}
                   disabled={disabledDays}
-                  // footer={<p className="text-xs text-gray-500">Maximum trip duration: 7 days</p>}
+                  footer={<p className="text-xs text-gray-500 text-center w-full">Maximum trip duration: 7 days</p>}
                   className="border border-dashed border-[#3c3c3c] p-2 bg-white"
                 />
                 </>
