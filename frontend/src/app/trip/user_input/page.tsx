@@ -67,6 +67,9 @@ const PlacesAutocomplete = ({
   setSelectedPlace: (value: string) => void
 
 }) => {
+  // Add state to track if selection is from dropdown
+  const [isValidSelection, setIsValidSelection] = useState(!!value);
+
   // Import required hooks
   const {
     ready, // indicate if API is ready to use
@@ -99,6 +102,9 @@ const PlacesAutocomplete = ({
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
 
+    // mark city as invalid when user types manually
+    setIsValidSelection(false);
+
     // if input is cleared, also clear the value in Zustand store
     if (e.target.value === "") {
       setSelectedPlace("");
@@ -110,6 +116,7 @@ const PlacesAutocomplete = ({
     setValue(description, false);
     clearSuggestions();
     setSelectedPlace(description);
+    setIsValidSelection(true); // mark as valid when selected from dropdown
 
     // Get coordinates of the city (for future use)
     getGeocode({ address: description }).then((results) => {
@@ -156,6 +163,9 @@ const PlacesAutocomplete = ({
                      focus:outline-none focus:border-[#313131] focus:border-dashed
                      transition-colors duration-300`}
         />
+        {!isValidSelection && inputValue && (
+          <p className="text-red-400 text-xs mt-1">Please select a city from the dropdown</p>
+        )}
         {status === "OK" && (
           <ul className="absolute z-10 w-full bg-white border border-gray-400 mt-1 
                          max-h-60 overflow-auto">
@@ -165,6 +175,7 @@ const PlacesAutocomplete = ({
       </div>
     );
   };
+
 
 
 export default function UserInputPage() {
@@ -263,6 +274,17 @@ export default function UserInputPage() {
   };
 
   const goToNext = () => {
+    // get the city input element
+    const cityInput = document.querySelector('input[placeholder="Type here"]') as HTMLInputElement;
+    const cityValue = cityInput?.value || "";
+    
+    // check if city matches what's in the store (indicating it was selected from dropdown)
+    if (cityValue && cityValue !== city) {
+      alert("Please select a valid city from the dropdown");
+      return;
+    }
+    
+    // proceed with navigation if validation passes
     router.push("/trip/itinerary");
   };
 
@@ -280,10 +302,16 @@ export default function UserInputPage() {
             {/* Empty div for spacing */}
             <div className="w-[25px]">
 
-              {/* DEBUG BUTTON - Show current TripState's Trip Id */}
+              {/* DEBUG BUTTON - Show current Trip Object's variables*/}
               {process.env.NODE_ENV === 'development' && (
                 <button 
-                  onClick={() => alert(`Current TripState object's tripId: ${tripId}`)}
+                  onClick={() => alert(`Current TripState:
+                  - tripId: ${tripId}
+                  - tripName: ${tripName}
+                  - city: ${city}
+                  - activityPrompt: ${activityPrompt}
+                  - startDate: ${startDate ? startDate.toLocaleDateString() : 'undefined'}
+                  - endDate: ${endDate ? endDate.toLocaleDateString() : 'undefined'}`)}
                   className="text-xs text-gray-400 hover:text-gray-600">
                   ID
                 </button>
