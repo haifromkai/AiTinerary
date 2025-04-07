@@ -1,9 +1,8 @@
-// DYNAMIC ITINERARY PAGE
-
 "use client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import DraggableBox from "@/app/Components/DraggableBox";
 
 export default function ItineraryPage() {
   const router = useRouter();
@@ -21,14 +20,11 @@ export default function ItineraryPage() {
     router.push("/trip/user_input");
   };
 
-
-
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen h-screen bg-white custom-grid-bg p-4">
       
       {/* Main Container (90% page width, 100% page height) */}
       <div className="w-9/10 h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
-
 
         {/* Header Panel */}
         <div className="w-full py-2 px-4 flex items-center justify-center border-b border-gray-400">
@@ -44,10 +40,10 @@ export default function ItineraryPage() {
 
             {/* User Profile Icon */}
             <button className="flex items-center justify-center h-[25px] w-[25px] 
-                               border border-dashed border-[#3c3c3c]
+                             border border-dashed border-[#3c3c3c]
                              text-[rgb(49,49,49)] 
                              hover:text-white hover:bg-[#313131] hover:border-[#313131]
-                               transition-colors duration-500">
+                             transition-colors duration-500">
               <svg className="h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
@@ -58,60 +54,48 @@ export default function ItineraryPage() {
           </div>
         </div>
 
-
         {/* Content Area */}
         <div className="flex flex-1">
 
           {/* Container 1 - Left Side (30% page width) */}
           <div className="w-[30%] p-6 border-r border-gray-400 flex flex-col">
             <h1 className="text-lg md:text-lg font-mono text-[rgb(49,49,49)] text-left">Side Panel</h1>
-            <div className="mt-3">
-              <input 
-                type="text" 
-                placeholder="Place Card #1" 
-                value={tripName}
-                onChange={(e) => setTripName(e.target.value)}
-                className={`w-full p-2
-                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
-                           font-mono text-[#313131]
-                           hover:bg-gray-200
-                           focus:bg-gray-200
-                           focus:outline-none focus:border-[#313131] focus:border-dashed
-                           transition-colors duration-300`}
-              />
-            </div>
+            
+            {/* Place Card #1 */}
+            <DraggableBox initialPosition={{ x: 120, y: 120 }}>
+              <div className="mt-3 w-[200px]">
+                <div className="p-4 border border-dashed border-[#3c3c3c] bg-white
+                              font-mono text-[#313131]
+                              hover:bg-gray-200
+                              transition-colors duration-300">
+                  Place Card #1
+                </div>
+              </div>
+            </DraggableBox>
 
-            <div className="mt-3">
-              <input 
-                type="text" 
-                placeholder="Place Card #2" 
-                value={tripName}
-                onChange={(e) => setTripName(e.target.value)}
-                className={`w-full p-2
-                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
-                           font-mono text-[#313131]
-                           hover:bg-gray-200
-                           focus:bg-gray-200
-                           focus:outline-none focus:border-[#313131] focus:border-dashed
-                           transition-colors duration-300`}
-              />
-            </div>
+            {/* Place Card #2 */}
+            <DraggableBox initialPosition={{ x: 120, y: 200 }}>
+              <div className="mt-3 w-[200px]">
+                <div className="p-4 border border-dashed border-[#3c3c3c] bg-white
+                              font-mono text-[#313131]
+                              hover:bg-gray-200
+                              transition-colors duration-300">
+                  Place Card #2
+                </div>
+              </div>
+            </DraggableBox>
 
-            <div className="mt-3">
-              <input 
-                type="text" 
-                placeholder="Place Card #3" 
-                value={tripName}
-                onChange={(e) => setTripName(e.target.value)}
-                className={`w-full p-2
-                           border ${tripName ? 'border-solid' : 'border-dashed'} border-[#3c3c3c] bg-transparent
-                           font-mono text-[#313131]
-                           hover:bg-gray-200
-                           focus:bg-gray-200
-                           focus:outline-none focus:border-[#313131] focus:border-dashed
-                           transition-colors duration-300`}
-              />
-            </div>
+            {/* Place Card #3 */}
+            <DraggableBox initialPosition={{ x: 120, y: 280 }}>
+              <div className="mt-3 w-[200px]">
+                <div className="p-4 border border-dashed border-[#3c3c3c] bg-white
+                              font-mono text-[#313131]
+                              hover:bg-gray-200
+                              transition-colors duration-300">
+                  Place Card #3
+                </div>
+              </div>
+            </DraggableBox>
           </div>
 
           {/* Container 2 - Right Side (70% page width) */}
@@ -129,7 +113,6 @@ export default function ItineraryPage() {
             </div>
           </div>
         </div>
-
 
         {/* Footer Panel - Fixed structure */}
         <div className="w-full py-2 px-4 border-t border-gray-400">
@@ -149,7 +132,6 @@ export default function ItineraryPage() {
               </button>
 
               <button 
-                // onClick={goToPrevious}
                 className="btn border-[#3c3c3c] border-1 border-dashed
                            text-base font-mono text-[#3c3c3c]
                          bg-white
@@ -175,7 +157,6 @@ export default function ItineraryPage() {
 
             <div className="flex space-x-2">
               <button 
-                // onClick={goToNext}
                 className="btn border-[#3c3c3c] border-1 border-dashed
                           text-base font-mono text-[#3c3c3c]
                           bg-white
@@ -187,7 +168,6 @@ export default function ItineraryPage() {
               </button>
 
               <button 
-                // onClick={goToNext}
                 className="btn border-[#3c3c3c] border-1 border-dashed
                           text-base font-mono text-[#3c3c3c]
                           bg-white

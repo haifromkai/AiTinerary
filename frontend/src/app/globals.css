@@ -71,3 +71,13 @@ body {
 .status-inactive {
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+.draggable-box {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.draggable-box:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
