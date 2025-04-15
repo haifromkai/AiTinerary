@@ -148,8 +148,8 @@ export default function UserInputPage() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen h-screen bg-white custom-grid-bg p-4">
 
-      {/* Main Container (75% page width, 100% page height) */}
-      <div className="w-[75%] h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
+      {/* Main Container (65% page width, 100% page height) */}
+      <div className="w-[65%] h-screen flex flex-col bg-gray-50 border border-gray-400 overflow-hidden">
 
 
         {/* Header Panel */}
@@ -246,6 +246,15 @@ export default function UserInputPage() {
                   <style jsx global>{`
                     .rdp-weeks > .rdp-week:last-child {
                       border-bottom: none !important;
+                    }
+
+                    /* accent color for selections */
+                    .rdp-root {
+                      --rdp-accent-color: #313131;
+                      --rdp-accent-background-color: #313131;
+                      --rdp-range_middle-background-color: rgba(49, 49, 49, 0.2);
+                      --rdp-range_start-date-background-color: #313131;
+                      --rdp-range_end-date-background-color: #313131;
                     }
                   `}</style>
                 <DayPicker
